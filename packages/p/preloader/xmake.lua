@@ -5,7 +5,18 @@ package("preloader")
 
     add_urls("https://github.com/LiteLDev/PreLoader.git", {alias = "original_git"})
     add_urls("https://github.com/LiteLDev/PreLoader/releases/download/$(version)/preloader-$(version)-windows-x64.zip", {alias = "original_tarball"})
-    add_urls("https://github.com/liteldev-free/PreLoader/releases/download/$(version)/preloader-$(version)-windows-x64.zip", {alias = "patched_tarball"})
+
+
+    local mod_vers = {
+        ["v1.13.0"] = 2
+    }
+
+    add_urls("https://github.com/liteldev-free/PreLoader/releases/download/$(version)/preloader-windows-x64.zip", {
+        alias = "patched_tarball",
+        version = function(version)
+            return ("%s-mod.%s"):format(version, mod_vers[tostring(version)])
+        end
+    })
 
     -- <= 1.9.2, use the open source version. (legacy)
     add_versions("original_git:v1.0.0", "v1.0.0")
